@@ -6,13 +6,17 @@ import (
 )
 
 func (r *FastRSA) VerifyPSS(signature, message, hashName, saltLengthName, publicKey string) (bool, error) {
+	messsageBytes, err := base64.StdEncoding.DecodeString(message)
+	if err != nil {
+		return false, err
+	}
 
 	signatureBytes, err := base64.StdEncoding.DecodeString(signature)
 	if err != nil {
 		return false, err
 	}
 
-	return r.verifyPSS(signatureBytes, []byte(message), hashName, saltLengthName, publicKey)
+	return r.verifyPSS(signatureBytes, messsageBytes, hashName, saltLengthName, publicKey)
 }
 
 func (r *FastRSA) VerifyPSSBytes(signature, message []byte, hashName, saltLengthName, publicKey string) (bool, error) {

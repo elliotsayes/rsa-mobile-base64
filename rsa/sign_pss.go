@@ -7,8 +7,12 @@ import (
 )
 
 func (r *FastRSA) SignPSS(message, hashName, saltLengthName, privateKey string) (string, error) {
+	messsageBytes, err := base64.StdEncoding.DecodeString(message)
+	if err != nil {
+		return "", err
+	}
 
-	output, err := r.signPSS([]byte(message), hashName, saltLengthName, privateKey)
+	output, err := r.signPSS(messsageBytes, hashName, saltLengthName, privateKey)
 	if err != nil {
 		return "", err
 	}
